@@ -1,5 +1,6 @@
 wandb/
 __pycache__/
+Models/
 Out/
 Data/
 CCSweep.py

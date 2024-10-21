@@ -52,8 +52,12 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 
+if not os.path.isdir('Models'):
+    os.mkdir('Models')
 
+save_direc=os.path.join(cwd,'Models')
 
+#os.path.isdir()
 #data_path=os.path.join(cwd,'Data/PNAS-lowcoh_regime_all_seeds/PNAS-lowcoh_regime_seed0')
 
 data_path=os.path.join(cwd,'Data/FoldyLox_all_seeds/FoldyLox_seed0')
@@ -85,7 +89,7 @@ DICTIONARY_size_R=1024*2 #size of dictionary*2
 layers=[4096, 2048]
 
 
-for EXP_NUM in range(0,10):
+for EXP_NUM in range(0,1):
     SCALING_param='None'
     WDECAY=1e-2
     ENC_GELMA_OPTIM='AdamW'
@@ -140,7 +144,7 @@ for EXP_NUM in range(0,10):
     TIME_reverse=False
     E_list=0
     RESETS=0
-    Epochs=4000
+    Epochs=100
     index_liskillt=[]
     GELMA_inc=0
     G_0=False
@@ -241,7 +245,6 @@ for EXP_NUM in range(0,10):
         wandb.config['save_group']=SAV_GROUP
         wandb.config['Scheduling']=Scheduling
         wandb.config['END_schedule']=END_schedule
-        wandb.config['save location']=f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}'
         
         
     wand_dict={}
@@ -587,15 +590,16 @@ for EXP_NUM in range(0,10):
             if INV_weight>0:
                 wand_dict['INV loss']=INV_loss_avg
             if epoch%1000==0:
-                torch.save(encoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/enocder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
-                torch.save(decoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+                torch.save(encoder.state_dict(), f'{save_direc}/encoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
+                torch.save(decoder.state_dict(), f'{save_direc}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
                 if GELMA>0:    
-                    torch.save(GELMA_net.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats//{SAV_GROUP}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+                    torch.save(GELMA_net.state_dict(), f'{save_direc}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
             if epoch==4999:
-                torch.save(encoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/enocder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
-                torch.save(decoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+                torch.save(encoder.state_dict(), f'{save_direc}/encoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
+                torch.save(decoder.state_dict(), f'{save_direc}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+
                 if GELMA>0:    
-                    torch.save(GELMA_net.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats//{SAV_GROUP}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+                    torch.save(GELMA_net.state_dict(), f'{save_direc}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
             
 
         
@@ -615,11 +619,10 @@ for EXP_NUM in range(0,10):
     medium_hat=medium_hat.cpu().detach().numpy()
     medium_hat=H.cat2complex(medium_hat)                    
     column_list.append(medium_hat)
-    torch.save(encoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/enocder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
-    torch.save(decoder.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
-    if GELMA>0:
-        torch.save(GELMA_net.state_dict(), f'/home/achristie/Codes_data/Experiment_data/rhosupport_stats/{SAV_GROUP}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
-
+    torch.save(encoder.state_dict(), f'{save_direc}/encoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')    
+    torch.save(decoder.state_dict(), f'{save_direc}/decoder_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
+    if GELMA>0:    
+        torch.save(GELMA_net.state_dict(), f'{save_direc}/GELMA_{unlabeled_data}_{EXP_NUM}_{timestampStr}.pt')
 
 
 
