@@ -205,8 +205,8 @@ for EXP_NUM in range(0,1):
     Track_run=True
     #Enter your wanbd key below and uncomment wanbd code to track run on wandb
     if Track_run:
-        key='89a70fbc572a495206df640bd6c9cbf2a4a0dcaa' #enter your own key here
-        wandb.login(key=key) #3209962  data type=FoldyLox_all_seeds, betas=(0.9, 0.999), lowerer LR, exp num=19
+        key='89a70fbc572a495206df640bd6c9cbf2a4a0dcaa' #  Novikov Key='f3c30b57562c6f42d1c8a091e13a45adf55424d3'
+        wandb.login(key=key) 
         if DICTIONARY_size_R=='default':
             dict_sting='default'
         else:
